@@ -10,12 +10,12 @@ El proyecto contiene un cliente-adaptador que utiliza el framework SpringBoot (S
 
 El **procedimiento para securizar** cualquier Backend API-REST que actúa como servidor de recursos es muy simple, basta con realizar estas tareas:
 
-1. Añadir en el archivo `build.gradle` de la API-REST la dependencia a la última versión de esta librería que esta publicada en [![](https://jitpack.io/v/PRACTICA-DIM/libreriaSauron-Backend.svg)](https://jitpack.io/#PRACTICA-DIM/libreriaSauron-Backend).
+1. Añadir en el archivo `build.gradle` de la API-REST la dependencia a la última versión de esta librería que esta publicada en [![](https://jitpack.io/v/DptoSIC/sauron-javalib.svg)](https://jitpack.io/#DptoSIC/sauron-javalib).
 
 2. Incluir en el archivo `application.properties` las siguientes propiedades para permitir la comunicación con el servidor Sauron (también es posible generar un archivo de propiedades exclusivo, `sauron.properties`, separando las propiedades de `application.properties`, en este caso habrá que indicarlo según punto 3.):
     
 ```
-# CONFIGURACION SECURIZACION CON SERVIDOR SAURON (variará en cada backend que se securiza, esta información será solicitada al administrador del servidor, el resto de propiedades que se necesitan están incluidas en la libreríaSauron-Backend).
+# CONFIGURACION SECURIZACION CON SERVIDOR SAURON (variará en cada backend que se securiza, esta información será solicitada al administrador del servidor, el resto de propiedades que se necesitan están incluidas en la librería sauron-javalib).
 
 # Nombre del Realm.
 
@@ -46,12 +46,12 @@ Ejemplo `application.properties`:
 keycloak.realm = adaptadorSauron
 keycloak.auth-server-url = https://herokusauron.herokuapp.com/auth
 keycloak.resource = adaptador-backend
-sauron.username-admin = admin
-sauron.admin-pass = Minisdef01
+sauron.username-admin = adminUser
+sauron.admin-pass = password
 
 ```
 
-3. Por último, una vez configurado el archivo .properties, y **sólo en el caso de que se hayan configurado las propiedades en** `sauron.propeties` (archivo independiente para las propiedades de Sauron), indicaremos a *SpringBoot*, dentro de la clase que contiene el método `main` o una clase de configuración propia @Configuration, el classpath para que encuentre el archivo de propiedades a cargar. También, indicaremos la clase `SauronSecurityConfig.class` mediante un @Import para que cargue la configuración de seguridad y las propiedades internas de la libreríaSauron-Backend:
+3. Por último, una vez configurado el archivo .properties, y **sólo en el caso de que se hayan configurado las propiedades en** `sauron.propeties` (archivo independiente para las propiedades de Sauron), indicaremos a *SpringBoot*, dentro de la clase que contiene el método `main` o una clase de configuración propia @Configuration, el classpath para que encuentre el archivo de propiedades a cargar. También, indicaremos la clase `SauronSecurityConfig.class` mediante un @Import para que cargue la configuración de seguridad y las propiedades internas de la librería Sauron-Backend:
 
 Ejemplo en archivo **Application.java**
 
@@ -73,7 +73,7 @@ public class Application {
 
 ## ESTRUCTURA DE LA LIBRERIA
 
-La librería *(libreriaSauron-Backend)* proporciona el código necesario para implementar la autenticación y autorización de usuarios, así como las interfaces para obtener los datos de identidad, los roles del usuario autenticado y todos los roles de la aplicación que son gestionados mediante un servidor IAM  **Sauron**.
+La librería *(sauron-javalib)* proporciona el código necesario para implementar la autenticación y autorización de usuarios, así como las interfaces para obtener los datos de identidad, los roles del usuario autenticado y todos los roles de la aplicación que son gestionados mediante un servidor IAM  **Sauron**.
 - Dentro de la librería nos encontramos los siguientes **componentes**:
 >- <u>**Configuración de Seguridad**</u>: paquete ``es.lanyu.sauron.config`` incluye la **clase de configuración** ``SauronSecurityConfig`` *(implementa la configuración global de seguridad para utilizar el servidor Sauron)*,
 >- <u>**Servicio Sauron**</u>: paquete ``es.lanyu.sauron.service`` incluye la interfaz ``SauronService`` y el servicio ``SauronServiceImpl`` *(proporcionando el usuario autenticado, sus roles, todos los roles de la aplicación, todos los usuarios de la aplicación y todos los usuarios con un rol específico)*,
